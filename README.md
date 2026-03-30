@@ -26,6 +26,17 @@ These skills are meant to be:
 - shared by multiple agents/tools
 - practical for real implementation, not just role-play personas
 
+## Contribution workflow
+
+Do not push directly to `main`.
+
+Always use:
+- a feature branch
+- a pull request
+- merge via PR review
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the repository workflow.
+
 The main pattern behind them is eval-driven development:
 - define the core interaction
 - define explicit success checks
