@@ -1,7 +1,7 @@
 ---
 name: svelte-frontend-edd
 description: Build and refine Svelte/SvelteKit frontends using eval-driven development (EDD) with explicit UX, interaction, accessibility, and build verification loops.
-version: 1.0.0
+version: 1.1.0
 author: Hermes Agent
 license: MIT
 metadata:
@@ -57,6 +57,97 @@ Examples:
 
 4. Evaluate every iteration
 Always verify with hard checks and product checks.
+
+5. Prefer autoresearch-style loops for polish work
+When the task is exploratory, run repeated small experiments instead of one giant redesign.
+Treat each UI change like an experiment:
+- propose one idea
+- implement it narrowly
+- evaluate it
+- keep or discard it
+
+## Autoresearch-style frontend loop
+
+Use this mode when the user asks for things like:
+- "make it better"
+- "do one more iteration"
+- "make it feel more premium"
+- "make it less technical"
+- "keep improving until it feels right"
+
+The point is not to blindly loop forever.
+The point is to use the same discipline as autoresearch:
+- small deltas
+- explicit scoreboards
+- keep winners
+- reject regressions
+
+### The frontend experiment cycle
+
+1. Establish baseline
+- identify the core interaction
+- identify current pain points
+- define hard checks
+- define 3-5 product evals
+
+2. Pick one hypothesis
+Examples:
+- hide metrics by default
+- add one ambient motion system
+- strengthen CTA hierarchy
+- improve trust cues near product cards
+
+3. Implement the smallest viable change
+- prefer one file or one surface when possible
+- avoid wide refactors during exploratory polish
+
+4. Run the evals
+- hard checks
+- product eval checklist
+- quick visual sanity review
+
+5. Keep or discard
+- keep if the page is clearly better and the core interaction still works
+- discard or simplify if the result is noisier, less clear, or less trustworthy
+
+### Frontend experiment log
+
+When doing multiple iterations, maintain a short log in your notes or final summary.
+Use this format:
+
+```md
+Iteration: ambient-buzz
+Hypothesis:
+- subtle idle motion will improve first impression
+
+Change:
+- added low-amplitude bee drift and wing flutter
+
+Hard checks:
+- npm test ✅
+- npm run build ✅
+
+Product eval:
+- delight stronger ✅
+- readability preserved ✅
+- CTA clarity unchanged ✅
+
+Decision:
+- keep
+```
+
+### Keep / discard heuristic
+
+Keep the change if:
+- hard checks pass
+- the core interaction feels as good or better
+- the page is more understandable, more delightful, or more conversion-ready
+
+Discard or simplify if:
+- build/test quality regresses
+- the main interaction becomes less stable
+- the UI feels busier but not better
+- the change only sounds clever without improving the experience
 
 ## Hard checks (default)
 
@@ -173,6 +264,10 @@ Good iteration examples:
 - hide technical detail behind disclosure
 - add one commerce section below hero
 
+Phrase the change as a hypothesis whenever possible:
+- "If we hide metrics by default, the page will feel less technical."
+- "If we add ambient motion, the first impression will feel more alive."
+
 Avoid bundling 8 unrelated ideas into one change.
 
 ### Step 4: Verify
@@ -187,6 +282,11 @@ If the change:
 
 keep it.
 Otherwise simplify or revert.
+
+When doing multiple polish passes, explicitly mark each pass as:
+- keep
+- discard
+- keep with simplification
 
 ## Svelte-specific guidance
 
