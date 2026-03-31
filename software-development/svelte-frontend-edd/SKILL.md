@@ -58,96 +58,30 @@ Examples:
 4. Evaluate every iteration
 Always verify with hard checks and product checks.
 
-5. Prefer autoresearch-style loops for polish work
-When the task is exploratory, run repeated small experiments instead of one giant redesign.
-Treat each UI change like an experiment:
-- propose one idea
-- implement it narrowly
-- evaluate it
-- keep or discard it
+5. Be friendly to external optimization loops
+This skill should provide stable operating guidance, not become the optimization loop itself.
 
-## Autoresearch-style frontend loop
+Use it as one candidate strategy inside a broader eval loop when needed:
+- define hypotheses outside the skill
+- run the experiments outside the skill
+- compare outcomes outside the skill
+- keep this skill focused on durable frontend practice
 
-Use this mode when the user asks for things like:
-- "make it better"
-- "do one more iteration"
-- "make it feel more premium"
-- "make it less technical"
-- "keep improving until it feels right"
+In other words:
+- the skill describes how to work well
+- the outer loop decides whether this approach beats alternatives
 
-The point is not to blindly loop forever.
-The point is to use the same discipline as autoresearch:
-- small deltas
-- explicit scoreboards
-- keep winners
-- reject regressions
+## External eval-loop compatibility
 
-### The frontend experiment cycle
+If you are using this skill inside a broader improvement loop, the loop should evaluate things like:
+- hard check pass rate
+- core interaction stability
+- UX clarity improvements
+- accessibility regressions avoided
+- visual hierarchy/conversion improvements
 
-1. Establish baseline
-- identify the core interaction
-- identify current pain points
-- define hard checks
-- define 3-5 product evals
-
-2. Pick one hypothesis
-Examples:
-- hide metrics by default
-- add one ambient motion system
-- strengthen CTA hierarchy
-- improve trust cues near product cards
-
-3. Implement the smallest viable change
-- prefer one file or one surface when possible
-- avoid wide refactors during exploratory polish
-
-4. Run the evals
-- hard checks
-- product eval checklist
-- quick visual sanity review
-
-5. Keep or discard
-- keep if the page is clearly better and the core interaction still works
-- discard or simplify if the result is noisier, less clear, or less trustworthy
-
-### Frontend experiment log
-
-When doing multiple iterations, maintain a short log in your notes or final summary.
-Use this format:
-
-```md
-Iteration: ambient-buzz
-Hypothesis:
-- subtle idle motion will improve first impression
-
-Change:
-- added low-amplitude bee drift and wing flutter
-
-Hard checks:
-- npm test ✅
-- npm run build ✅
-
-Product eval:
-- delight stronger ✅
-- readability preserved ✅
-- CTA clarity unchanged ✅
-
-Decision:
-- keep
-```
-
-### Keep / discard heuristic
-
-Keep the change if:
-- hard checks pass
-- the core interaction feels as good or better
-- the page is more understandable, more delightful, or more conversion-ready
-
-Discard or simplify if:
-- build/test quality regresses
-- the main interaction becomes less stable
-- the UI feels busier but not better
-- the change only sounds clever without improving the experience
+The skill itself should remain reusable and stable.
+Avoid turning it into a self-referential "keep iterating forever" procedure.
 
 ## Hard checks (default)
 
@@ -268,6 +202,8 @@ Phrase the change as a hypothesis whenever possible:
 - "If we hide metrics by default, the page will feel less technical."
 - "If we add ambient motion, the first impression will feel more alive."
 
+These hypotheses are useful both for normal iteration and for any outer eval loop comparing different approaches.
+
 Avoid bundling 8 unrelated ideas into one change.
 
 ### Step 4: Verify
@@ -287,6 +223,8 @@ When doing multiple polish passes, explicitly mark each pass as:
 - keep
 - discard
 - keep with simplification
+
+If an outer eval loop is in charge, treat these as local judgments that can later be compared against other skills or workflows.
 
 ## Svelte-specific guidance
 
