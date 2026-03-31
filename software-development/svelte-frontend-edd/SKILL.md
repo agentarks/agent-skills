@@ -206,12 +206,52 @@ When doing multiple polish passes, explicitly mark each pass as:
 
 ## Svelte-specific guidance
 
+### Choose the smallest effective component boundary
+Do not split components too early.
+Start with one file when the surface is still simple, then extract only when a boundary becomes real.
+
+Good reasons to extract a component:
+- repeated markup
+- a clearly separable visual section
+- an interaction that has its own local state
+- a reusable product card / modal / control group
+
+Bad reasons to extract a component:
+- the file feels emotionally large
+- you want to feel "more componentized"
+- the section is not actually reusable or conceptually separate
+
+A strong default:
+- keep page composition in `+page.svelte` or `App.svelte`
+- extract leaf components for repeated or isolated UI units
+
 ### Prefer reactive derivation for UI state
-Use derived state for layout/computation, keep base state minimal.
+Use derived state for layout/computation and keep base state minimal.
 
 Good examples:
 - base state: bee positions, selected preset, toggles
 - derived state: clamped positions, animated positions, computed layout lines
+
+Avoid duplicating state when one value can be derived from another.
+If two values can drift out of sync, that is usually a sign the state model is wrong.
+
+### Know when to use local state vs stores
+Default to local component state first.
+Use stores only when state truly spans multiple distant components or route layers.
+
+Use local state for:
+- toggles
+- hover/drag state
+- one-page controls
+- temporary UI selections
+
+Use stores for:
+- cross-route user/session preferences
+- shared cart state
+- global overlays/toasts if they are genuinely app-wide
+- shared product filters reused across multiple sections or routes
+
+Do not introduce a store just because the app may grow later.
 
 ### Keep interaction math in `.ts` utilities when complex
 If geometry/layout logic grows, move it out of `.svelte` into utilities.
@@ -221,15 +261,49 @@ Good split:
 - `.svelte`: rendering, user input, composition
 - `.ts`: layout math, collision, slotting, ranking, formatting helpers
 
+A simple heuristic:
+- if logic has multiple loops, collision math, ranking rules, or non-trivial branching, move it out of the component
+
 ### Use Svelte for presentation, not for hiding broken logic
 Do not rely on reactive magic to cover up unclear state transitions.
 If drag/motion logic is confusing, simplify the state model.
+
+Before adding more reactivity, ask:
+- what is the actual source of truth?
+- which values are user-controlled?
+- which values are computed?
+- which values only exist for presentation?
+
+### Be explicit about SvelteKit route/data boundaries
+In SvelteKit projects, decide early what belongs in:
+- `+page.ts` / `+page.server.ts`
+- `+layout.ts` / `+layout.server.ts`
+- component-local client state
+
+Good defaults:
+- route loaders fetch durable page data
+- server loaders handle secrets/auth-sensitive data
+- client-side local state handles immediate interaction
+- avoid fetching the same data in both loaders and `onMount` unless there is a real live-refresh reason
+
+If the task is mostly marketing/landing-page UI, keep the route layer thin and avoid unnecessary loader complexity.
 
 ### Prefer accessible interaction surfaces
 If using SVG or custom drag targets:
 - give interactive groups sensible roles/labels where needed
 - keep semantics clean
 - avoid shipping known Svelte accessibility warnings
+- keep decorative SVG separate from core actions when possible
+
+### Styling guidance for Svelte surfaces
+Choose the lightest styling approach that fits the project.
+
+Good defaults:
+- existing project styling system first
+- CSS files or scoped component styles for small/medium custom work
+- utility classes only when the project already uses them coherently
+
+Avoid mixing too many styling models in one feature unless the repo already does that.
 
 ## Suggested file structure patterns
 
@@ -241,6 +315,7 @@ If using SVG or custom drag targets:
 
 ### SvelteKit landing page
 - `src/routes/+page.svelte`
+- `src/routes/+page.ts` or `+page.server.ts` only if route data is truly needed
 - `src/lib/data/*.ts`
 - `src/lib/ui/*.ts`
 - `src/lib/components/*.svelte`
