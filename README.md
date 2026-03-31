@@ -5,6 +5,10 @@ Shared AI agent skills for Svelte frontend work, playful commerce UI, and eval-d
 ## Included skills
 
 ### software-development
+- `frontend-engineer`
+  - Frontend implementation skill for turning design direction into reliable, maintainable product UI.
+  - Blends strong UI execution with senior engineering judgment.
+
 - `svelte-frontend-edd`
   - Build and refine Svelte/SvelteKit frontends using eval-driven development.
   - Focuses on hard checks, UX evals, accessibility, motion, and preserving the core interaction.
@@ -14,6 +18,10 @@ Shared AI agent skills for Svelte frontend work, playful commerce UI, and eval-d
   - Combines frontend implementation discipline with commerce-aware design judgment.
 
 ### design
+- `design-lead`
+  - Product-facing design leadership skill combining UX architecture, UI craft, and brand consistency.
+  - Useful when one person must hold the whole experience together.
+
 - `playful-commerce-ui`
   - Design guidance for playful, brand-led ecommerce interfaces.
   - Focuses on delight, conversion, trust, hierarchy, and restraint.
