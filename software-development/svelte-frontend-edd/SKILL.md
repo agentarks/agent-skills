@@ -58,30 +58,11 @@ Examples:
 4. Evaluate every iteration
 Always verify with hard checks and product checks.
 
-5. Be friendly to external optimization loops
-This skill should provide stable operating guidance, not become the optimization loop itself.
+5. Stay stable and reusable
+This skill should describe durable frontend practice.
+Keep it focused on how to work well in Svelte, not on meta-process or orchestration.
 
-Use it as one candidate strategy inside a broader eval loop when needed:
-- define hypotheses outside the skill
-- run the experiments outside the skill
-- compare outcomes outside the skill
-- keep this skill focused on durable frontend practice
-
-In other words:
-- the skill describes how to work well
-- the outer loop decides whether this approach beats alternatives
-
-## External eval-loop compatibility
-
-If you are using this skill inside a broader improvement loop, the loop should evaluate things like:
-- hard check pass rate
-- core interaction stability
-- UX clarity improvements
-- accessibility regressions avoided
-- visual hierarchy/conversion improvements
-
-The skill itself should remain reusable and stable.
-Avoid turning it into a self-referential "keep iterating forever" procedure.
+If you use this skill in a broader evaluation setup, that is fine — but the skill itself should stay practical and implementation-focused.
 
 ## Hard checks (default)
 
@@ -202,8 +183,6 @@ Phrase the change as a hypothesis whenever possible:
 - "If we hide metrics by default, the page will feel less technical."
 - "If we add ambient motion, the first impression will feel more alive."
 
-These hypotheses are useful both for normal iteration and for any outer eval loop comparing different approaches.
-
 Avoid bundling 8 unrelated ideas into one change.
 
 ### Step 4: Verify
@@ -224,7 +203,6 @@ When doing multiple polish passes, explicitly mark each pass as:
 - discard
 - keep with simplification
 
-If an outer eval loop is in charge, treat these as local judgments that can later be compared against other skills or workflows.
 
 ## Svelte-specific guidance
 
