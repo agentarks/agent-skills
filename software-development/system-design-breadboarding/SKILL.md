@@ -11,33 +11,33 @@ metadata:
 
 # System Design Breadboarding
 
-Breadboarding transforms a workflow description into a complete map of affordances and their relationships. The output is always a set of tables showing numbered UI and code affordances with their Wires Out and Returns To relationships. The tables are the truth. Mermaid diagrams are optional visualizations for humans.
+Breadboarding is a lightweight system-mapping technique that translates a workflow description into a set of structured tables showing what users can do (UI affordances), what the system does (code affordances), and how they connect (wiring). Derived from physical electronics breadboards — where you lay out components and wires to understand a circuit before soldering — this approach helps you understand, design, or communicate system structure before writing production code.
 
-Use this to understand how a system works, design a new system from shaped parts, or communicate system structure to builders.
+Use this to understand how a system works, design a new system from scoped parts, or communicate system structure to builders.
 
 ## When to Use
 
 - You need to understand how an existing system works in concrete detail
-- You have a new system sketched as an assembly of parts from shaping and need to detail the concrete mechanism
-- You need to show how existing and new pieces interact as a system
+- You have a new system sketched as scoped parts and need to detail the mechanism
+- You need to show how existing and new pieces interact
 - You want to slice a design into vertical, end-to-end implementation chunks
 - The system spans multiple applications (frontend + backend + services)
 
 ## When Not to Use
 
 - The problem is a simple UI tweak with no system-level changes
-- The architecture is already documented and well-understood
+- The architecture is already well-documented and understood
 - The user wants to jump straight to code without any design mapping
 
 ## Use Cases
 
 ### 1. Mapping an Existing System
 
-You don't understand how an existing system works in its concrete details. You have a workflow you're trying to understand — explaining how something happens or why something doesn't happen.
+You don't understand how an existing system works in concrete detail. You have a workflow you're trying to understand — explaining how something happens or why something doesn't happen.
 
 **Input:**
 - Code repo(s) to analyze
-- Workflow description (always from the perspective of an operator trying to make an effect happen — through UI or as a caller)
+- Workflow description (from the perspective of an operator trying to make an effect happen — through UI or as an API caller)
 
 **Output:**
 - Places list
@@ -49,21 +49,21 @@ You don't understand how an existing system works in its concrete details. You h
 
 If the workflow spans multiple applications (frontend + backend), create **one breadboard** that tells the full story. Label places to show which system they belong to.
 
-### 2. Designing from Shaped Parts
+### 2. Designing from Scoped Parts
 
-You have a new system sketched as an assembly of parts (mechanisms) from shaping. You need to detail out the concrete mechanism and show how those parts interact as a system.
+You have a new system sketched as an assembly of parts from shaping. You need to detail out the concrete mechanism and show how those parts interact.
 
 **Input:**
 - Parts list (mechanisms from shaping)
-- The R (requirement/outcome) the parts are meant to achieve
-- Existing system (optional) — if the new parts must interoperate with existing code
+- The requirement/outcome the parts are meant to achieve
+- Existing system (optional) — if new parts must interoperate with existing code
 
 **Output:**
 - Same tables as above
 
 ### 3. Mixed Systems
 
-Often you have both: an existing system that must remain as-is, plus new pieces or changes defined in a shape. Breadboard both together — the existing affordances and the new ones — showing how they connect.
+Often you have both: an existing system that must remain as-is, plus new pieces or changes from a shape. Breadboard both together — existing affordances and new ones — showing how they connect.
 
 ## Core Concepts
 
@@ -155,18 +155,20 @@ Ask: *"What does this affordance need to know in order to do its job?"* If the a
 
 ### 5. Mermaid Diagram (Optional)
 
-````markdown
-## Wiring Diagram
+` ````markdown
+` `## Wiring Diagram
 
-```mermaid
-graph TD
-    U1[Create Job button] --> U2[Job form]
-    U2 --> C2[createJob]
-    C2 --> C3[enqueueJob]
-    C2 --> D1[jobs table]
-    C3 --> D2[jobQueue]
-```
-````
+` ````mermaid
+` `graph TD
+` `    U1[Create Job button] --> U2[Job form]
+` `    U2 --> C2[createJob]
+` `    C2 --> C3[enqueueJob]
+` `    C2 --> D1[jobs table]
+` `    C3 --> D2[jobQueue]
+` ` ````
+` ` ````
+
+(Use 4-backtick outer fences when nesting Mermaid inside example blocks.)
 
 ## Naming Conventions
 

@@ -11,61 +11,61 @@ metadata:
 
 # Design Reflection
 
-Reflect on a breadboard or system design by syncing it to the implementation, then finding and fixing design smells. Works on existing breadboards built with the `system-design-breadboarding` skill.
-
-A breadboard should be a **legible explanation of how the system produces its effects**. When you look at it, you should be able to account for every behavior — not just see that an effect happens, but understand *how* it happens through the wiring. When someone's mental model doesn't match what the breadboard shows, either their model is wrong or the breadboard is incomplete.
+Design reflection is a disciplined practice of reviewing a system design artifact (like a breadboard or architecture diagram) against its actual implementation to find mismatches, hidden complexity, and design smells. The goal is to make the design artifact an accurate, legible explanation of how the system produces its effects — so anyone reading it can understand *how* behavior happens, not just *that* it happens.
 
 ## When to Use
 
-- You have a breadboard that may have drifted from the actual codebase
+- You have a design diagram or breadboard that may have drifted from the actual codebase
 - You're about to refactor a system and want to understand its real structure first
 - The code has accumulated complexity and you want to surface hidden coupling or missing abstractions
 - You're reviewing a design document against the implementation for accuracy
-- A new developer (or you, months later) needs to understand how the system actually works
+- A new developer needs to understand how the system actually works
 
 ## When Not to Use
 
 - The system is trivial (fewer than ~5 affordances)
 - You're in the middle of active feature development and can't pause to audit
-- The breadboard was never created in the first place (use `system-design-breadboarding` first)
+- The design artifact was never created (use `system-design-breadboarding` first)
 
 ## Core Loop
 
-Reflection is a **two-phase loop**: **SEE**, then **REFLECT**. Always in this order.
+Reflection follows a **two-phase loop**: **SEE**, then **REFLECT**. Always in this order.
 
 ```
 SEE (sync to code) → REFLECT (find smells) → FIX → REPEAT
 ```
 
-## Phase 1: SEE — Sync Breadboard to Implementation
+Skipping SEE and jumping straight to critique will result in reviewing a fiction, not the actual system.
 
-The code is ground truth. The breadboard may have drifted or been built from a conceptual shape that doesn't match what was actually implemented. Before looking for design problems, make the breadboard accurate.
+## Phase 1: SEE — Sync Design Artifact to Implementation
+
+The code is ground truth. The design artifact may have drifted or been built from a plan that doesn't match what was actually built. Before looking for design problems, make the artifact accurate.
 
 ### Steps
 
-1. **Read the implementation.** Find the relevant source files. Don't rely on the breadboard's current description of what the code does.
+1. **Read the implementation.** Find the relevant source files. Don't rely on the design artifact's description of what the code does.
 2. **Inspect the seams.** Walk the code using the checklist below — module boundaries, module-level definitions, function signatures, full call chains, decorators, state co-access.
-3. **Update the breadboard to match.** Add missing nodes, stores, and places. Fix wrong wiring. Remove stale affordances. The goal is: the breadboard now accurately reflects the code's actual structure — even if that structure has problems.
+3. **Update the design artifact to match.** Add missing nodes, stores, and places. Fix incorrect connections. Remove stale affordances. The goal: the artifact now accurately reflects the code's actual structure — even if that structure has problems.
 
-After Phase 1, the breadboard shows **what IS**, not what should be.
+After Phase 1, the artifact shows **what IS**, not what should be.
 
 ### Reading Seams from the Implementation
 
 #### 1. Module boundaries are seams
 
-Each file or module is a boundary the code has already chosen. Check what crosses it — that's a public interface, and the breadboard should show it. If a module exists (e.g., `llm.py` separate from `app.py`), the breadboard shouldn't reach through it to grab internals. The module's public function is the affordance; what it calls internally is behind the boundary.
+Each file or module is a boundary the code has already chosen. Check what crosses it — that's a public interface, and the design artifact should show it. If a module exists (e.g., `notifications.py` separate from `app.py`), the artifact shouldn't reach through it to grab internals. The module's public function is the affordance; what it calls internally stays behind the boundary.
 
 #### 2. Module-level definitions are data stores
 
-Constants, configurations, and templates at the top of a module — `TOOLS`, `SYSTEM_PROMPT`, `DEFAULTS` — are static state that shapes behavior. If code reads them to produce effects, they belong in the breadboard as stores. They're easy to miss because they don't change at runtime, but they are still inputs to the system's behavior.
+Constants, configurations, and templates at the top of a module — `TOOLS`, `SYSTEM_PROMPT`, `DEFAULTS` — are static state that shapes behavior. If code reads them to produce effects, they belong in the design artifact as stores. They're easy to miss because they don't change at runtime, but they are still inputs to behavior.
 
 #### 3. Function signatures are affordance boundaries
 
-What a function takes and returns is its contract. The breadboard should show this, not the internal implementation. If a function signature changed since the breadboard was written, update the breadboard.
+What a function takes and returns is its contract. The design artifact should show this, not the internal implementation. If a function signature changed since the artifact was written, update the artifact.
 
 #### 4. Decorators and middleware are affordances too
 
-Auth decorators, logging middleware, rate limiters — they intercept calls and change behavior. They should appear in the breadboard as code affordances that sit between caller and callee.
+Auth decorators, logging middleware, rate limiters — they intercept calls and change behavior. They should appear in the artifact as code affordances that sit between caller and callee.
 
 #### 5. State co-access reveals place boundaries
 
@@ -75,7 +75,7 @@ If two affordances read and write the same state, they likely belong in the same
 
 Phase 1 is preparation. Phase 2 is the point. **Do not skip it.**
 
-Now that the breadboard is accurate, inspect it for design problems. The code's names might be wrong. The split of responsibilities might not be ideal. The wiring might reveal unnecessary coupling or missing abstractions.
+Now that the artifact is accurate, inspect it for design problems. The code's names might be wrong. The split of responsibilities might not be ideal. The wiring might reveal unnecessary coupling or missing abstractions.
 
 ### The Checks
 
@@ -83,13 +83,13 @@ Run through each check in order. Record findings as you go.
 
 #### 1. Trace User Stories Through the Wiring
 
-Pick a concrete user story ("user creates a job", "admin bans a user") and trace it through the breadboard from start to finish.
+Pick a concrete user story ("user creates a job", "admin bans a user") and trace it through the design artifact from start to finish.
 
 - Does the path tell a coherent story?
 - Can you explain every behavior **without hidden steps**?
 - Are there gaps where something "just happens" with no affordance responsible?
 
-A smell: you say "and then the job appears in the queue" but the breadboard shows no affordance that enqueues it.
+A smell: you say "and then the job appears in the queue" but the artifact shows no affordance that enqueues it.
 
 #### 2. Run the Naming Test on Every Affordance
 
@@ -114,7 +114,7 @@ If you can't name an affordance in one verb, it may have multiple responsibiliti
 
 For every module-level constant, config object, or template that an affordance reads: is it in the Data Stores table?
 
-If code reads it to produce effects, it's a store — even if it's static. Ask: *"What does this affordance need to know in order to do its job?"* If the answer references something not in the breadboard, it's missing.
+If code reads it to produce effects, it's a store — even if it's static. Ask: *"What does this affordance need to know in order to do its job?"* If the answer references something not in the artifact, it's missing.
 
 Common hidden stores:
 - Hardcoded lists or dictionaries (`VALID_STATUSES`, `FEATURE_FLAGS`)
@@ -168,11 +168,11 @@ For each smell, decide:
 - **Rewire** — The wiring reveals coupling → introduce boundaries, move affordances between places
 - **Extract** — A cluster of affordances deserves its own place → create a new place
 
-After fixing, update the breadboard. Then optionally update the code to match.
+After fixing, update the design artifact. Then optionally update the code to match.
 
 ## Output Format
 
-Produce a reflection document alongside the breadboard:
+Produce a reflection document alongside the design artifact:
 
 ```markdown
 # Reflection: [System Name]
@@ -180,7 +180,7 @@ Produce a reflection document alongside the breadboard:
 ## Phase 1: SEE — Sync to Code
 
 - Files read: [list]
-- Changes made to breadboard: [list]
+- Changes made to artifact: [list]
 - New affordances added: [list]
 - Removed stale affordances: [list]
 - Added missing stores: [list]
@@ -227,7 +227,7 @@ Produce a reflection document alongside the breadboard:
 
 ## Common Pitfalls
 
-1. **Skipping Phase 1 and jumping to design critique.** If the breadboard doesn't match the code, your reflection critiques a fiction, not the actual system.
+1. **Skipping Phase 1 and jumping to design critique.** If the design artifact doesn't match the code, your reflection critiques a fiction, not the actual system.
 
 2. **Treating naming as cosmetic.** Bad names often reveal wrong boundaries. If you can't name an affordance cleanly, the responsibility split is probably wrong.
 
@@ -235,9 +235,9 @@ Produce a reflection document alongside the breadboard:
 
 4. **Only reflecting on UI affordances.** Code affordances often carry the real complexity. The naming test and store audit must cover both tables.
 
-5. **Stopping after finding smells without fixing.** The value is in the fix. Update the breadboard, then optionally update the code.
+5. **Stopping after finding smells without fixing.** The value is in the fix. Update the design artifact, then optionally update the code.
 
-6. **Reflecting on a system you're actively building.** Reflection assumes the code is mostly stable. If you're mid-feature, the breadboard will keep shifting. Wait for a natural boundary (feature complete, refactor point, pre-release).
+6. **Reflecting on a system you're actively building.** Reflection assumes the code is mostly stable. If you're mid-feature, the artifact will keep shifting. Wait for a natural boundary (feature complete, refactor point, pre-release).
 
 ## Quick-Start Recipe
 
@@ -248,13 +248,13 @@ Produce a reflection document alongside the breadboard:
    - Read the notification module(s): notifications.py, email.py, push.py
    - Walk module boundaries: what's public? what's internal?
    - Check for hidden stores: template strings, config dicts, feature flags
-   - Update the breadboard to match current code
+   - Update the design artifact to match current code
 
 2. Phase 2: REFLECT
    - Trace story: "user triggers notification → routed to channel → delivered"
    - Naming test: does `sendNotification()` describe email, push, or both?
    - Hidden stores: is `SMS_GATEWAY_URL` in a config or hardcoded?
-   - Place boundaries: do email templates live with email logic or in a shared template store?
+   - Place boundaries: do email templates live with email logic or in a shared store?
    - Coupling: does `sendNotification()` call 3 different channel handlers directly?
 
 3. Fix smells BEFORE adding SMS
@@ -267,13 +267,13 @@ Produce a reflection document alongside the breadboard:
 
 ## Verification Checklist
 
-- [ ] Phase 1 completed: breadboard synced to current code
-- [ ] All relevant source files were read, not just the breadboard
+- [ ] Phase 1 completed: design artifact synced to current code
+- [ ] All relevant source files were read, not just the artifact
 - [ ] At least one user story traced end-to-end through the wiring
 - [ ] Naming test run on every affordance (UI and code)
-- [ ] Hidden data stores surfaced and added to the breadboard
+- [ ] Hidden data stores surfaced and added to the artifact
 - [ ] Place boundaries reviewed for responsibility and isolation
 - [ ] Coupling patterns checked (spaghetti, back-and-forth, orphans)
 - [ ] Smells table compiled with severity and fix approach
-- [ ] Breadboard updated with fixes
-- [ ] Code optionally refactored to match improved breadboard
+- [ ] Design artifact updated with fixes
+- [ ] Code optionally refactored to match improved design
