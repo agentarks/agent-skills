@@ -2,8 +2,7 @@
 name: solution-shaping
 description: Use when collaboratively defining a problem and exploring solution options before implementation. Enforces structured requirements, shape options, fit checks, and consistency across shaping → slicing → implementation.
 version: 1.0.0
-author: rjs/shaping-skills adapted for Hermes Agent
-license: MIT
+author: Hermes Agent
 metadata:
   hermes:
     tags: [product-design, system-design, planning, scoping, requirements, shape-up]

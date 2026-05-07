@@ -2,8 +2,7 @@
 name: design-reflection
 description: Use when reviewing a breadboard or system design against its implementation to find design smells, sync documentation to code, and surface hidden complexity.
 version: 1.0.0
-author: rjs/shaping-skills adapted for Hermes Agent
-license: MIT
+author: Hermes Agent
 metadata:
   hermes:
     tags: [system-design, code-review, breadboarding, refactoring, design-smells]

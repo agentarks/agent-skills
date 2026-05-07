@@ -2,8 +2,7 @@
 name: system-design-breadboarding
 description: Use when mapping an existing system or designing a new one from shaped parts. Transforms workflow descriptions into structured UI and code affordance tables with wiring relationships.
 version: 1.0.0
-author: rjs/shaping-skills adapted for Hermes Agent
-license: MIT
+author: Hermes Agent
 metadata:
   hermes:
     tags: [system-design, architecture, breadboarding, affordances, ui-design, code-design]
@@ -156,7 +155,7 @@ Ask: *"What does this affordance need to know in order to do its job?"* If the a
 
 ### 5. Mermaid Diagram (Optional)
 
-```markdown
+````markdown
 ## Wiring Diagram
 
 ```mermaid
@@ -167,7 +166,7 @@ graph TD
     C2 --> D1[jobs table]
     C3 --> D2[jobQueue]
 ```
-```
+````
 
 ## Naming Conventions
 
