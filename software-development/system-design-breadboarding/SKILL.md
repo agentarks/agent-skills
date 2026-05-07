@@ -155,18 +155,18 @@ Ask: *"What does this affordance need to know in order to do its job?"* If the a
 
 ### 5. Mermaid Diagram (Optional)
 
-` ````markdown
-` `## Wiring Diagram
+````markdown
+## Wiring Diagram
 
-` ````mermaid
-` `graph TD
-` `    U1[Create Job button] --> U2[Job form]
-` `    U2 --> C2[createJob]
-` `    C2 --> C3[enqueueJob]
-` `    C2 --> D1[jobs table]
-` `    C3 --> D2[jobQueue]
-` ` ````
-` ` ````
+```mermaid
+graph TD
+    U1[Create Job button] --> U2[Job form]
+    U2 --> C2[createJob]
+    C2 --> C3[enqueueJob]
+    C2 --> D1[jobs table]
+    C3 --> D2[jobQueue]
+```
+````
 
 (Use 4-backtick outer fences when nesting Mermaid inside example blocks.)
 
